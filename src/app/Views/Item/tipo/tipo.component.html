@@ -1,0 +1,122 @@
+<!-- Form filter -->
+<p-toast key="alert" [style]="{marginTop: '-12px'}"></p-toast>
+<p-panel header="Tipos de items" [toggleable]="true" [style]="{'margin-bottom':'5px'}">
+  <form #frm="ngForm" class="form">
+<!--     <div class="ui-g filter"> -->
+      <div class="p-d-flex p-ai-end">
+        <div class="p-col-2">
+          <label style="color: black">Nombre</label>
+          <br>
+          <input pInputText name="nombre" ngModel placeholder="Nombre" />
+        </div>
+        <div class="p-col-2">
+          <label style="color: black">Descripción</label>
+          <br>
+          <input pInputText name="descripcion" ngModel placeholder="Descripcion" />
+        </div>
+        <div class="p-col">
+          <button pButton type="reset" class="button-clear" label="Limpiar"  (click)="frm.reset()" style="margin-right: 0.4em"></button>
+          <button pButton type="submit" class="button-search" label="Buscar" (click)="searchTipos(frm);"></button>
+        </div>
+      </div>
+<!--     </div> -->
+  </form>
+</p-panel>
+
+<div class="button-add" *ngIf=hasPermissionCreate>
+  <app-tipo-modal (sendDataModal)="addNewTipo($event)"></app-tipo-modal>
+</div>
+
+<!-- Grid -->
+<div class="p-d-flex">
+  <p-table #dt class="fixPaginator" [columns]="cols" [value]="tipos" dataKey="id" [paginator]="true"
+    [rows]="5" pageLinkSize="3" [rowsPerPageOptions]="[5, 10, 15, 25, 50]" editMode="row" [loading]="loading"  [scrollable]="false" scrollHeight="{{scrollHeight}}">
+    <!-- Header -->
+   <ng-template pTemplate="header" let-columns>
+    <!--<tr>
+     <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+       {{col.header}}
+       <p-sortIcon [field]="col.field"></p-sortIcon>
+     </th>
+     <th>Acción</th>
+    </tr>
+    <tr>
+     <th *ngFor="let col of columns" [ngSwitch]="col.field">
+      <input *ngSwitchCase="'name'" placeholder="Nombre" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" pInputText type="text" class="col-md-5" />
+      <input *ngSwitchCase="'address'" placeholder="Ubicación" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" pInputText type="text" class="col-md-5" />
+      <input *ngSwitchCase="'email'" placeholder="E-mail" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" pInputText type="text" class="col-md-6" />
+     </th>
+     <th></th>
+    </tr>-->
+
+    <tr>
+      <th *ngFor="let col of columns;" [ngStyle]="{ 'background-color': col.filtered == '' || col.filtered == undefined ? '' : 'rgb(0, 122, 217)', 'color': col.filtered == '' || col.filtered == undefined ? '' : '#ffffff'}" [pSortableColumn]="col.field" pResizableColumn style="padding: 0.05em;">
+        <div class="p-grid" style="padding: 3px;">
+          <p-overlayPanel  #column_filter [showCloseIcon]="true" [dismissable]="false" appendTo="body">
+            <input (input)="dt.filter($event.target.value, col.field, col.filterMatchMode); col.filtered=$event.target.value" placeholder="{{col.header}}" pInputText type="text"/>
+          </p-overlayPanel>
+          <div class="p-col-10">{{col.header}}<p-sortIcon [field]="col.field"></p-sortIcon></div>
+          <div class="p-col-2" style="padding: 0px; align-self: center; text-align: center;" (click)="$event.stopPropagation()"><i [ngClass]="col.filtered == '' || col.filtered == undefined ? 'pi pi-search' : 'pi pi-filter'" (click)="column_filter.show($event)" style="font-size:14px;"></i>
+          </div>
+        </div>						
+      </th>
+      <th style="text-align: center;">Acción</th>
+    </tr>
+   </ng-template>
+      <!-- Body -->
+   <ng-template pTemplate="body" let-rowData let-editing="editing" let-index="rowIndex">
+    <tr [pEditableRow]="rowData">
+      <td>
+       <p-cellEditor>
+         <ng-template pTemplate="input">
+           <input pInputText type="text" [(ngModel)]="rowData.nombre" required>
+         </ng-template>
+         <ng-template pTemplate="output">
+            {{rowData.nombre}}
+         </ng-template>
+       </p-cellEditor>
+     </td>
+     <td>
+      <p-cellEditor>
+       <ng-template pTemplate="input">
+         <input pInputText type="text" [(ngModel)]="rowData.descripcion" required>
+       </ng-template>
+       <ng-template pTemplate="output">
+           {{rowData.descripcion}}
+       </ng-template>
+      </p-cellEditor>
+     </td>
+     <td class="actions">
+       <button *ngIf="!editing" pButton type="button" icon="pi pi-pencil" class="ui-button-info" (click)="editTipo(rowData)" style="margin-right: .5em" pInitEditableRow></button>
+        <!-- Three buttons -->
+       <button *ngIf="editing && hasPermissionCreate" pButton type="button" icon="pi pi-check" class="ui-button-success-check" (click)="updateTipo(rowData, index)" style="margin-right: .5em" pSaveEditableRow> </button>
+       <button *ngIf="editing && hasPermissionDelete" pButton type="button" icon="pi pi-trash" class="ui-button-danger" style="margin-right: .5em" (click)="onJustification(index)"></button>
+       <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger"
+       (click)="cancelTipo(rowData, index)"></button>
+     </td>
+    </tr>
+   </ng-template>
+     <!-- Summary -->
+    <ng-template pTemplate="summary" let-rowData let-index="rowIndex">
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+          <td [attr.colspan]="6" class="text-center">
+              {{ loading ? 'Cargando...' : 'No hay registros para los criterios especificados'}}
+          </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorright" let-state>
+      <strong> Mostrando {{ state?.rows > tipos?.length ? tipos?.length : state?.rows}} de {{tipos?.length}} registros</strong>
+    </ng-template>
+   </p-table>
+</div>
+
+<app-justification
+[displayJustification]=displayJustification
+[permissionDelete]=permissionDelete
+[userJustification]=user
+(sendDataModal)="returnJustification($event)"
+></app-justification>
+
+<router-outlet></router-outlet>

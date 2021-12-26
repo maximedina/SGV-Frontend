@@ -1,0 +1,133 @@
+.button {
+  color: black;
+  background-color: #fff;
+}
+
+.button :hover{
+  background-color:  #E6E6E6;
+}
+
+.form {
+  margin-bottom: 0px;
+}
+
+.formFiltro {
+  margin-top: 0px;
+}
+
+:host ::ng-deep .ng-trigger .ng-trigger-animation .ng-tns-c8-8 .ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-shadow .ui-dialog-draggable .ui-dialog-resizable .ng-star-inserted {
+  height: 500px;
+}
+
+:host ::ng-deep .ui-g-4 {
+  width: 280px;
+}
+
+:host ::ng-deep  .ui-panel .ui-panel-content  {
+  background-color: #848484;
+  border: none;
+}
+
+:host ::ng-deep .border {
+  border: #848484!important;
+}
+
+:host :ng-deep ui-inputtext {
+  width: 190px;
+}
+
+.inputName {
+  width: 350px;
+}
+
+.inputProfile {
+  margin-left: 85px;
+}
+
+.edit {
+  text-align:center;
+}
+
+.border {
+border: 1px solid;
+width: 99.3%;
+margin-top: 5px;
+margin-left: 5px;
+border-radius: 10px;
+background-color: #DADADA;
+color: #fff;
+}
+
+#button {
+margin: 10%;
+}
+
+.button-search {
+background-color: #007AD9 !important ;
+border-color: #007AD9 !important;
+cursor: pointer;
+}
+
+.button-clear {
+background-color: #717171 !important;
+border-color: #717171 !important;
+color: #fff;
+cursor: pointer;
+}
+
+.form {
+margin-bottom: 0px;
+}
+
+.ui-g {
+margin-top: 0px;
+}
+
+:host ::ng-deep .ng-trigger .ng-trigger-animation .ng-tns-c8-8 .ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-shadow .ui-dialog-draggable .ui-dialog-resizable .ng-star-inserted {
+height: 500px;
+}
+
+:host ::ng-deep .ui-g-4 {
+width: 280px;
+}
+
+:host ::ng-deep  .ui-panel .ui-panel-content  {
+background-color: #DADADA;
+border: none;
+}
+
+:host ::ng-deep .ui-panel-title {
+color: #F2F2F2;
+}
+
+:host ::ng-deep .ui-panel-titlebar-icon {
+border-radius: #848484 !important;
+}
+
+:host ::ng-deep .border {
+border: #848484 !important;
+}
+
+:host :ng-deep ui-inputtext {
+width: 190px;
+}
+
+:host ::ng-deep .ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button {
+background: #A4A4A4;
+}
+
+:host ::ng-deep .ui-widget-header {
+background: #A4A4A4;
+background-image: linear-gradient(#A4A4A4 0%, rgb(170, 172, 175) 100%);
+}
+
+:host ::ng-deep .ui-table-summary {
+background: #F2F2F2 !important;
+border-color: #F2F2F2 !important;
+}
+
+:host ::ng-deep .ui-paginator .ui-paginator-pages .ui-paginator-page.ui-state-active{
+background-color: #848484 !important;
+}
+
+

@@ -1,0 +1,67 @@
+<!--<div style="text-align:left">
+    <button class="add" type="button" pButton icon="fa fa-plus" >Cerrar caja</button>
+</div>-->
+<p-button (click)="display=false; showModal()" >Cerrar caja </p-button>
+  <!--Form Add -->
+  
+  <p-dialog header="Cerrar caja " [(visible)]="display"
+    [modal]="true" [responsive]="true" showEffect="fade" [style]="{width: '50vw'}">
+    <form >
+    <!-- Header-->
+    <div class="ui-m ui-fluid">
+        <div class="ui-m-12 ui-fluid">
+          <div class="ui-m-12 required">
+            <label for="ingresos">Ingresos</label>
+          </div>
+          <div class="ui-m-12">
+            <input pInputText class="col-md-12" type="text" id="ingresos" name="ingresos" [(ngModel)]="caja.ingresos" placeholder="Ingresos"  readonly/>
+          </div>
+        </div>
+
+        <div class="ui-m-12 ui-fluid">
+            <div class="ui-m-12 required">
+              <label for="egresos">Egresos</label>
+            </div>
+            <div class="ui-m-12">
+              <input pInputText class="col-md-12" type="text" id="egresos" name="egresos" [(ngModel)]="caja.egresos" placeholder="Ingresos" readonly/>
+            </div>
+          </div>
+
+        <div class="ui-m-12 ui-fluid">
+          <div class="ui-m-12">
+            <label for="saldoInicial">Saldo inicial</label>
+          </div>
+          <div class="ui-m-12">
+            <input pInputText class="col-md-12" type="text" id="saldoInicial" [(ngModel)]="caja.saldoInicial" name="saldoInicial" placeholder="Descripción" readonly/>
+          </div>
+        </div>
+        <div class="ui-m-12 ui-fluid">
+            <div class="ui-m-12">
+              <label for="total">Caja</label>
+            </div>
+            <div class="ui-m-12">
+              <input pInputText class="col-md-12" type="text" id="total" name="total" placeholder="Descripción" value="{{total}}" readonly/>
+            </div>
+          </div>
+          <div class="ui-m-12 ui-fluid">
+            <div class="ui-m-12">
+              <label for="comentario">Comentario</label>
+            </div>
+            <div class="ui-m-12">
+              <input pInputText class="col-md-12" type="text" id="comentario" [(ngModel)]="caja.comentario" name="comentario" placeholder="Descripción" />
+            </div>
+          </div>
+      </div>
+    <!-- Footer -->
+    <p-footer>
+      <div class="p-grid mt-1">
+        <div class=" p-col">
+          <button pButton type="reset" class="button-cancel" (click)="display=false"  icon="fa fa-close" label="Cancelar"></button>
+        </div>
+        <div class=" p-col">
+          <button pButton type="submit" class="button-save"  (click)="cerrarCaja()" icon="fa fa-check" label="Cerrar caja"></button>
+        </div>
+      </div>
+    </p-footer>
+</form>
+   </p-dialog>

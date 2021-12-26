@@ -1,0 +1,46 @@
+<div style="text-align:left">
+    <button class="add" type="button" pButton icon="fa fa-plus" (click)="display=false; showModal()"></button>
+</div>
+
+  <!--Form Add -->
+<form #frmModal="ngForm" (ngSubmit)="addNewSystemSetting(frmModal.value); frmModal.resetForm()">
+  <p-dialog header="Crea Registro de Parámetro" class="modal-lg" [(visible)]="display"
+  [modal]="true" [responsive]="true" showEffect="fade">
+    <!-- HEADER-->
+    <div class="ui-m ui">
+      <div class="ui-m-12 ui-fluid">
+        <div class="ui-m-12 required">
+          <label for="key">Clave</label>
+        </div>
+        <div class="ui-m-8">
+          <input type="text" pInputText id="key" ngModel name="key" required />
+        </div>
+      </div>
+      <div class="ui-m-12 ui-fluid">
+        <div class="ui-m-12 required">
+          <label for="value">Valor</label>
+        </div>
+        <div class="ui-m-8">
+          <input type="text" pInputText id="value" ngModel name="value" required />
+        </div>
+      </div>
+      <div class="ui-m-12 ui-fluid">
+        <div class="ui-m-12 required">
+          <label for="module">Módulo</label>
+        </div>
+        <div class="ui-m-4">
+          <p-dropdown id="module" [options]="modules" name="module" [(ngModel)]="systemSetting.module" placeholder="Seleccionar"
+              optionLabel="name" appendTo="body" [style]="{'width':'100px'}" required>
+          </p-dropdown>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <p-footer>
+      <button pButton type="reset" (click)="frmModal.resetForm(); display=false" style="background-color: #717171 !important; border: 1px solid #717171"
+        icon="fa fa-close" label="Cancelar"></button>
+      <button pButton type="submit" [disabled]="!frmModal.valid" style="background-color: #007AD9; border: 1px solid #007AD9" icon="fa fa-check" label="Grabar"></button>
+    </p-footer>
+  </p-dialog>
+</form>
+

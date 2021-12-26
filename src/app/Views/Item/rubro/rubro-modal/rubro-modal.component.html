@@ -1,0 +1,27 @@
+<div style="text-align:left">
+  <button class="add" type="button" pButton icon="fa fa-plus" (click)="showDialog()"></button>
+</div>
+
+<form #frmModal="ngForm" (ngSubmit)="addNewRubro()">
+  <p-dialog header="Nuevo rubro" class="modal-lg" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{}" showEffect="fade">
+    <div class="p-d-flex p-flex-column">
+      <div class="p-d-flex p-flex-column required">
+        <label for="nombre">Nombre</label>
+        <input pInputText id="nombre" placeholder="Nombre" [(ngModel)]="rubro.nombre" name="nombre" required />
+      </div>
+      <div class="p-d-flex p-flex-column required">
+            <label for="grupo">Grupo</label>
+        <p-dropdown id="grupo" [options]="grupos" name="grupo" [(ngModel)]="rubro.grupo" placeholder="Selecione grupo"
+        optionLabel="nombre" appendTo="body" required></p-dropdown>
+      </div>
+      <div class="p-d-flex p-flex-column required">
+            <label for="descripcion">Descripción</label>
+            <input pInputText id="descripcion" placeholder="Descripcion" [(ngModel)]="rubro.descripcion" name="descripcion" required />
+      </div>
+    </div>
+    <p-footer>
+      <button pButton (click)="frmModal.resetForm(); display=false" style="background-color: #717171 !important; border: 1px solid #717171" icon="fa fa-close" label="Cancelar"></button>
+      <button pButton type="submit" [disabled]="!frmModal.valid" style="background-color: #007AD9; border: 1px solid #007AD9" icon="fa fa-check" label="Grabar"></button>
+    </p-footer>
+  </p-dialog>
+</form>

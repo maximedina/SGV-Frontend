@@ -1,0 +1,91 @@
+<p-panel header="Parámetros del sistema" [style]="{'margin-bottom':'5px'}"></p-panel>
+<!-- Grid-->
+<p-toast key="alert" [style]="{marginTop: '-12px'}"></p-toast>
+
+<div class="button-add">
+    <app-system-setting-modal *ngIf="hasPermissionCreate" (sendDataModal)="addNewSystemSetting($event)" [modules]=modules></app-system-setting-modal>
+  </div>
+
+<div class="ui-g">
+  <p-table #dt [columns]="cols" [value]="systemSettings" dataKey="systemSettingId" editMode="row"
+    [paginator]="true" [rows]="10" pageLinkSize="3" [rowsPerPageOptions]="[20, 40, 60, 80]">
+    <!-- Header -->
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+        <th style="width:10em; text-align: center">Acción</th>
+      </tr>
+      <tr>
+        <th *ngFor="let col of columns" [ngSwitch]="col.field">
+          <input *ngSwitchCase="'key'" placeholder="Clave" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)"
+              pInputText type="text" class="col-md-5" />
+          <input *ngSwitchCase="'value'" placeholder="Valor" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)"
+              pInputText type="text" class="col-md-5" />
+          <input *ngSwitchCase="'module.name'" placeholder="Módulo" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)"
+              pInputText type="text" class="col-md-5" />
+        </th>
+      </tr>
+    </ng-template>
+    <!-- Body -->
+    <ng-template pTemplate="body" let-rowData let-editing="editing" let-index="rowIndex">
+      <tr [pEditableRow]="rowData">
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="rowData.key" required>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.key}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="rowData.value" required>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.value}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown [options]="modules" name="module" [(ngModel)]="rowData.module" placeholder="Seleccionar"
+                optionLabel="name" appendTo="body" required>
+              </p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{rowData.module.name}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td class="actions">
+          <button *ngIf="!editing" pButton type="button" icon="pi pi-pencil" class="ui-button-info" style="margin-right: .5em" (click)="editSystemSetting(rowData)"
+            pInitEditableRow></button>
+          <button *ngIf="editing && hasPermissionCreate" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" (click)="updateSystemSetting(rowData, index)"
+            style="margin-right: .5em"></button>
+          <button *ngIf="editing && hasPermissionDelete" pButton type="button" icon="pi pi-trash" class="ui-button-danger" (click)="deleteSystemSetting(index)"
+            style="margin-right: .5em"></button>
+          <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="cancelSystemSetting(rowData, index)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <!-- Summary -->
+    <ng-template pTemplate="summary" let-rowData let-index="rowIndex">
+    </ng-template>
+  </p-table>
+</div>
+
+<app-justification
+  [displayJustification]=displayJustification
+  [permissionDelete]=permissionDelete
+  [userJustification]=user
+  (sendDataModal)="returnJustification($event)"
+></app-justification>
+
+<router-outlet></router-outlet>

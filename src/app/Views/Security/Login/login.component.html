@@ -1,0 +1,28 @@
+<body>
+<div class="container">
+    <div class="col-sm-9 col-md-7 col-lg-4 mx-auto">
+        <div class="card card-login my-5" id=cardLoginPage>
+            <div class="card-body" id="card-body" style="padding:0px;">
+                <div style="padding:32px;">
+                    <h4 class="card-title text-center">
+                        <img src="./assets/logo.png" class="imgI2Portal">
+                    </h4>
+                    <form id="teste" #loginForm="ngForm" (ngSubmit)="OnSubmit(loginForm)" >
+                        <label for="UserName">Usuario</label>
+                        <input id="UserName" name="UserName" pInputText class="form-control" minlength="1" ngModel required>
+
+                        <label for="Password" id="Password">Contraseña</label>
+                        <input id="Password" type="Password" pInputText name="Password" class="form-control" minlength="1" ngModel required>
+
+                        <div id="btSubmit">
+                            <button type="submit" class="ui-button-rounded" [disabled]="loginForm.invalid" pButton
+                                label="Iniciar"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>
+</body>

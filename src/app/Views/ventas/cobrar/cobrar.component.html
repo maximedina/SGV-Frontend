@@ -1,0 +1,130 @@
+<p-button (click)="display=false; showModal()" label="Cobrar"></p-button>
+  <!--Form Add -->
+  <p-dialog header="Buscar producto/servicio" [(visible)]="display"
+    [modal]="true" [responsive]="true" showEffect="fade" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <form >
+    <!-- Header-->
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-6">
+            <p-card>
+                <ng-template pTemplate="header">
+                    Metodo de pago
+                </ng-template>
+                <div class="p-fluid">
+                    <div class="p-field p-grid">
+                        <div class="p-col-12 p-md-12">
+                            <p-radioButton name="gpompago" value="1" [(ngModel)]="mpago" label="Efectivo"></p-radioButton>
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <div class="p-col-12 p-md-12">
+                            <p-radioButton name="gpompago" value="2" [(ngModel)]="mpago" label="Tarjeta debito"></p-radioButton>
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <div class="p-col-12 p-md-12">
+                            <p-radioButton name="gpompago" value="3" [(ngModel)]="mpago" label="Tarjeta credito"></p-radioButton>
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <div class="p-col-12 p-md-12">
+                            <p-radioButton name="gpompago" value="4" [(ngModel)]="mpago" label="Cuenta corriente" (click)="calculaCC()"></p-radioButton>
+                        </div>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+        <div class="p-field p-col-6">
+            <p-card>
+                <ng-template pTemplate="header">
+                    Impresión
+                </ng-template>
+                <div class="p-fluid">
+                    <div class="p-field p-grid">
+                        <div class="p-col-12 p-md-12">
+                            <p-radioButton name="gpoimpresion" value="no" [(ngModel)]="impresion" label="No Imprimir"></p-radioButton>
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <div class="p-col-12 p-md-12">
+                            <p-radioButton name="gpoimpresion" value="comprobante" [(ngModel)]="impresion" label="Imprimir comprobante"></p-radioButton>
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <div class="p-col-12 p-md-12">
+                            <p-radioButton name="gpoimpresion" value="factura" [(ngModel)]="impresion" label="Imprimir factura"></p-radioButton>
+                        </div>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+        <div class="p-field p-col-9">
+            <div class="p-fluid">
+                <div class="p-field p-grid">
+                    <label for="total" class="p-col-12 p-mb-6 p-md-6 p-mb-md-0">Monto</label>
+                    <div class="p-col-12 p-md-6">
+                        <input type="number" pInputText [(ngModel)]="venta.total" name="total" readonly/>
+                    </div>
+                </div>
+                <div *ngIf="mpago=='1'" class="p-field p-grid">
+                    <label for="abono" class="p-col-12 p-mb-6 p-md-6 p-mb-md-0">Abona</label>
+                    <div class="p-col-12 p-md-6">
+                        <input type="number" pInputText [(ngModel)]="abono" name="abono" (keyup)="calculaVuelto($event)"/>
+                    </div>
+                </div>
+                <div *ngIf="mpago=='1'" class="p-field p-grid">
+                    <label for="vuelto" class="p-col-12 p-mb-6 p-md-6 p-mb-md-0">Vuelto</label>
+                    <div class="p-col-12 p-md-6">
+                        <input type="number" pInputText [(ngModel)]="vuelto" name="vuelto" readonly/>
+                    </div>
+                </div>
+
+                <div *ngIf="mpago=='2' || mpago=='3'" class="p-field p-grid">
+                    <label for="nroTarjeta" class="p-col-12 p-mb-6 p-md-6 p-mb-md-0">Nro Comprobante</label>
+                    <div class="p-col-12 p-md-6">
+                        <input type="text" pInputText [(ngModel)]="venta.ticketTarjeta" name="ticketTarjeta"/>
+                    </div>
+                </div>
+
+                <div *ngIf="mpago=='4'" class="p-field p-grid">
+                    <label for="cuentaCorriente" class="p-col-12 p-mb-6 p-md-6 p-mb-md-0">Saldo CC</label>
+                    <div class="p-col-12 p-md-6">
+                        <input type="text" pInputText [(ngModel)]="cliente.cuentaCorriente" name="cuentaCorriente" readonly/>
+                    </div>
+                </div>
+                <div *ngIf="mpago=='4'" class="p-field p-grid">
+                    <label for="saldofin" class="p-col-12 p-mb-6 p-md-6 p-mb-md-0">Saldo final</label>
+                    <div class="p-col-12 p-md-6">
+                        <input type="text" pInputText [(ngModel)]="saldofin" name="saldofin" readonly/>
+                    </div>
+                </div>
+                <div *ngIf="mpago=='4'" class="p-field p-grid">
+                    <label for="comentario" class="p-col-12 p-mb-6 p-md-6 p-mb-md-0">Comentario</label>
+                    <div class="p-col-12 p-md-6">
+                        <input type="text" pInputText [(ngModel)]="venta.comentario" name="comentario"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-field p-col-3">
+            <div class="p-field p-grid">
+                <div class="p-col-12 p-md-12">
+                    <button pButton type="button" class="p-button-raised p-button-rounded p-button-success" label="Aceptar" (click)="registrarVta('cerrada')"></button>
+                </div>
+            </div>
+            <div class="p-field p-grid">
+                <div class="p-col-12 p-md-12">
+                    <button pButton type="button" class="p-button-rounded p-button-info" label="Guardar" (click)="registrarVta('pendiente')"></button>
+                </div>
+            </div>
+            <div class="p-field p-grid">
+                <div class="p-col-12 p-md-12">
+                    <button pButton type="button" class="p-button-rounded p-button-danger" label="Cancelar" (click)="registrarVta('cancelada')"></button>
+                </div>
+            </div>
+            {{error}}
+        </div>
+        <br/>
+    </div> 
+</form>
+   </p-dialog>

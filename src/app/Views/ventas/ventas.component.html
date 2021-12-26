@@ -1,0 +1,225 @@
+<p-toast key="alert" [style]="{marginTop: '-12px'}"></p-toast>
+<p-panel header="Ventas" [toggleable]="false" [style]="{'margin-bottom':'5px'}">
+<div id="encabezado">
+  <div class="container-fluid " style="align-items: center;">
+    <div class="p-grid">
+      <div class="p-col-6">
+        <p-panel header="Productos">
+          <form #frm="ngForm" class="form">
+            <div class="linea">
+              <p-autoComplete [(ngModel)]="itemSeleccionado" [suggestions]="itemsFiltrados" [forceSelection]="true"
+                  (onSelect)="seleccionItem($event)" (completeMethod)="filtradoItems($event)" field="identificador"
+                   placeholder="Producto/Servicio" [minLength]="1" name="item" class="iitem" [dropdown]="true"></p-autoComplete>
+                <!--<button pButton type="submit" label="" (click)="search(frm)" class="iitem"><div class="pi pi-search"></div></button>-->
+                <!--<p-button icon="fa fa-search"></p-button>-->
+                <app-search [items]="items" (sendItemSel)="searchItemSel($event)"></app-search>
+                <p-button *ngIf="itemSeleccionado != null" icon="fa fa-plus" (click)="agregarItem(frm)"></p-button>
+                <!--<button pButton type="submit" label="Agregar" (click)="agregarItem(frm)" id="agregar"
+                  [hidden]="true" class="iitem"></button>-->
+            </div>
+
+            <div class="info">
+              <div class="p-grid">
+                <div class="p-col-8">
+                  <div class="atributo">
+                    <span style="margin-left:10px">Código: {{itemSeleccionado ? itemSeleccionado.codigo : '-'}}</span>
+                  </div>
+                  <div class="atributo">
+                    <span style="margin-left:10px">Nombre: {{itemSeleccionado ? itemSeleccionado.nombre : '-'}}</span>
+                  </div>
+                  <div class="atributo">
+                    <span style="margin-left:10px">Categoría: {{itemSeleccionado ? itemSeleccionado.categoria.nombre : '-'}}</span>
+                  </div>
+                </div>
+                <div class="p-col-4">
+                  <div class="atributo">
+                    <span style="margin-left:10px">Precio: {{itemSeleccionado ? itemSeleccionado.precioVenta : '-'}}</span>
+                  </div>
+                  <div class="atributo">
+                    <span style="margin-left:10px">Stock: {{itemSeleccionado ? itemSeleccionado.stock : '-'}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </p-panel>
+      </div>
+      <div class="p-col-6">
+        <p-panel header="Cliente">
+
+          <form #frm="ngForm" class="form">
+            <div class="linea">
+              <div>
+                <p-autoComplete [(ngModel)]="cliente" [suggestions]="clientesFiltrados" [forceSelection]="true"
+                  (onSelect)="seleccionCliente($event)" (completeMethod)="filtradoClientes($event)"
+                  field="identificador" [size]="30" placeholder="DNI / Nombre" [minLength]="1"
+                  name="cliente" [dropdown]="true" class="iitem"></p-autoComplete>
+              </div>
+            </div>
+            <div class="info">
+              
+              
+              <div class="p-grid">
+                <div class="p-col-7">
+                  <div class="atributo">
+                    <span style="margin-left:10px">DNI: {{cliente ? cliente.login : '-'}}</span>
+                  </div>  
+                  <div class="atributo">
+                    <span style="margin-left:10px">Nombre: {{cliente ? cliente.name : '-'}}</span>
+                  </div>
+                  <div class="atributo">
+                    <span style="margin-left:10px">Teléfono: {{cliente ? cliente.telefono : '-'}}</span>
+                  </div>
+                  <div class="atributo">
+                    <span style="margin-left:10px">Domicilio: {{cliente ? cliente.domicilio : '-'}}</span>
+                  </div>
+                </div>
+                <div class="p-col-5">
+                  <div class="atributo">
+                    <span style="margin-left:10px">Saldo CC: ${{cliente ? cliente.cuentaCorriente : '-'}}</span>
+                  </div>
+                  <div class="atributo">
+                    <span style="margin-left:10px">Límite CC: ${{cliente ? cliente.limiteCC : '-'}}</span>
+                  </div>
+                  <div class="atributo">
+                    <span style="margin-left:10px">Email: {{cliente ? cliente.email : '-'}}</span>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+
+
+          </form>
+        </p-panel>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-table [value]="detalleVenta" [columns]="cols" [scrollable]="true"  scrollHeight="200px"  styleClass="p-datatable-sm"
+(onEditComplete)="onEditComplete($event)" editMode="row">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:3em;">
+        <!--<p-tableHeaderCheckbox (click)="selTodos()">Q</p-tableHeaderCheckbox>-->
+        <p-checkbox name="SelAll" (click)="selTodos()" [binary]="true" [(ngModel)]="SelAll"></p-checkbox>
+      </th>
+      <!--<th pSortableColumn="codigo">Código <p-sortIcon field="codigo"></p-sortIcon>-->
+      <th>Código
+      </th>
+      <!--<th pSortableColumn="descripcion">Descripción <p-sortIcon field="descripcion"></p-sortIcon>-->
+      <th>Descripción
+      </th>
+      <th style="width:6em;">Precio</th>
+      <th>Cantidad</th>
+      <th>Descuento</th>
+      <th pSortableColumn="total">Total</th>
+      <th style="width:6em;">Stock</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+    <tr [pEditableRow]="rowData" >
+      <td style="width:3em;">
+        <!--<p-tableCheckbox  [value]="rowData.seleccionado" name="seleccionado" ></p-tableCheckbox>-->
+        <!--<p-toggleButton onLabel="" offLabel=" " onIcon="pi pi-check" offIcon="pi pi-times" iconPos="right" [(ngModel)]="rowData.seleccionado" name="seleccionado" ></p-toggleButton>-->
+        <p-checkbox name="seleccionado" [binary]="true" [(ngModel)]="rowData.seleccionado"></p-checkbox>
+      </td>
+      <td>
+        {{rowData.item.codigo}}
+      </td>
+      <td>
+        {{rowData.item.nombre}}
+      </td>
+      <td style="width:6em;">
+        {{rowData.precio | number : '1.2-2' : 'en-EN'}}
+      </td>
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <!--<input  (change)="onRowEditInit(rowData)" pInputText type="number" min="0" [(ngModel)]="rowData.cantidad">-->
+            <input pInputText type="number" [(ngModel)]="rowData.cantidad" (change)="onRowEditInit(rowData)">
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{rowData.cantidad}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td pEditableColumn>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input pInitEditableRow (change)="onRowEditInit(rowData)" pInputText type="number" max="100" min="0" [(ngModel)]="rowData.descuento">
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{rowData.descuento}}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        {{rowData.importe | number : '1.2-2' : 'en-EN'}}
+        <!--{{(1-(rowData.descuento/100))*rowData.cantidad*rowData.item.precioVenta}}-->
+      </td>
+      <td style="width:6em;">
+        {{rowData.item.stock-rowData.cantidad}}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<!--{{venta | json}}-->
+<div class="p-grid mt-1">
+  <div class="p-col">
+    <p>Total: {{venta.total}}</p>
+  </div>
+  <div class="p-col">
+    <app-cobrar *ngIf="caja.estatus && vtapendiente && venta.total > 0 && cliente != null" [cliente]="cliente" [venta]="venta" (cobrarEvent)='cobrar($event)'></app-cobrar>
+  </div>
+  
+  <div class="p-col">
+    <button pButton type="button" class="p-button-raised p-button-warning" label="Limpiar" (click)="id=0;limpiar()"></button>
+  </div>
+
+  <div class="p-col">
+    <button pButton type="button" class="p-button-raised p-button-warning" label="Quitar seleccionados" (click)="quitar()"></button>
+  </div>
+</div>
+
+<!--<br>
+{{itemVentaEdit | json}}-->
+<div class="p-grid">
+  <!--<p-button>Ingreso caja</p-button>
+  <p-button>Egreso caja{{caja.id}}</p-button>-->
+  <div class="p-col">
+    <app-caja-ingreso *ngIf="caja.estatus" [caja]="caja" [clientes]="clientes" [tipo]="'I'" (sendDataModal)='regIngEgr($event)'></app-caja-ingreso>
+  </div>
+  
+  <div class="p-col">
+    <app-caja-ingreso *ngIf="caja.estatus" [caja]="caja" [clientes]="clientes" [tipo]="'E'" (sendDataModal)='regIngEgr($event)'></app-caja-ingreso>
+  </div>
+  <!--<p-button>Buscar venta </p-button>-->
+  
+  <div class="p-col">
+    <app-buscar (sendVtaSel)="selVenta($event)"></app-buscar>
+  </div>
+  
+  <div class="p-col">
+    <app-abrir *ngIf="caja.estatus === false" [caja]="caja" (sendDataModal)='abrirCaja($event)'></app-abrir>
+  </div>
+  
+  <div class="p-col">
+    <app-caja-cerrar *ngIf="caja.estatus" [caja]="caja" (sendDataModal)='cerrarCaja($event)'></app-caja-cerrar>
+  </div>
+  
+  <!--<p-button>Cerrar caja</p-button>-->
+  <!--<p-button>Cobrar</p-button>-->
+</div>
+
+<router-outlet></router-outlet>
+
+<p-toast></p-toast>
+
+
+
+
+
+

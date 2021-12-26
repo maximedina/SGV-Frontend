@@ -1,0 +1,382 @@
+<p-toast key="alert" [style]="{ marginTop: '-12px' }"></p-toast>
+<p-panel header="Practicas" [toggleable]="false" [style]="{ 'margin-bottom': '5px' }">
+    <div id="encabezado">
+        <div class="container-fluid" style="align-items: center">
+            <p-autoComplete [(ngModel)]="practica.item" [suggestions]="itemsFiltradosP" [forceSelection]="true"
+                (onSelect)="seleccionItemP($event)" (completeMethod)="filtradoItemsP($event)" field="identificador"
+                placeholder="Practica" [minLength]="1" name="item" class="iitem p-mb-2" [dropdown]="true">
+            </p-autoComplete>
+            <p></p>
+            <div class="p-grid">
+                <div class="p-col-6">
+                    <p-panel header="Productos">
+                        <!--Panel search practica-->
+                        <form class="form">
+                            <div class="linea">
+                                <p-autoComplete [(ngModel)]="itemSeleccionado" [suggestions]="itemsFiltrados"
+                                    [forceSelection]="true" (onSelect)="seleccionItem($event)"
+                                    (completeMethod)="filtradoItems($event)" field="identificador"
+                                    placeholder="Producto/Servicio" [minLength]="1" name="items" class="iitem"
+                                    [dropdown]="true"></p-autoComplete>
+
+                                <app-search [items]="items" (sendItemSel)="searchItemSel($event)"></app-search>
+                                <p-button *ngIf="itemSeleccionado != null" (click)="agregarItem()" icon="fa fa-plus">
+                                </p-button>
+                            </div>
+
+                            <div class="p-grid">
+                                <div class="p-col-8">
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Código:
+                                            {{
+                                            itemSeleccionado ? itemSeleccionado.codigo : "-"
+                                            }}</span>
+                                    </div>
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Nombre:
+                                            {{
+                                            itemSeleccionado ? itemSeleccionado.nombre : "-"
+                                            }}</span>
+                                    </div>
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Categoría: {{
+                                            itemSeleccionado
+                                            ? itemSeleccionado.categoria.nombre
+                                            : "-"
+                                            }}</span>
+                                    </div>
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px"></span>
+                                    </div>
+                                </div>
+                                <div class="p-col-4">
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Precio: {{
+                                            itemSeleccionado ? itemSeleccionado.precioVenta : "-"
+                                            }}</span>
+                                    </div>
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Stock: {{
+                                            itemSeleccionado ? itemSeleccionado.stock : "-"
+                                            }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </p-panel>
+                </div>
+                <div class="p-col-6">
+                    <p-panel header="Cliente">
+                        <form class="form">
+                            <div class="linea">
+                                <div>
+                                    <p-autoComplete [(ngModel)]="practica.venta.cliente"
+                                        [suggestions]="clientesFiltrados" [forceSelection]="true"
+                                        (onSelect)="seleccionCliente($event)"
+                                        (completeMethod)="filtradoClientes($event)" field="identificador" [size]="30"
+                                        placeholder="DNI / Nombre" [minLength]="1" name="cliente" [dropdown]="true"
+                                        class="iitem"></p-autoComplete>
+                                </div>
+                            </div>
+
+                            <div class="p-grid">
+                                <div class="p-col-7">
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">DNI: {{
+                                            practica.venta.cliente
+                                            ? practica.venta.cliente.login
+                                            : "-"
+                                            }}</span>
+                                    </div>
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Nombre: {{
+                                            practica.venta.cliente
+                                            ? practica.venta.cliente.name
+                                            : "-"
+                                            }}</span>
+                                    </div>
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Teléfono: {{
+                                            practica.venta.cliente
+                                            ? practica.venta.cliente.telefono
+                                            : "-"
+                                            }}</span>
+                                    </div>
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Domicilio: {{
+                                            practica.venta.cliente
+                                            ? practica.venta.cliente.domicilio
+                                            : "-"
+                                            }}</span>
+                                    </div>
+                                </div>
+                                <div class="p-col-5">
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Saldo CC: ${{
+                                            practica.venta.cliente
+                                            ? practica.venta.cliente.cuentaCorriente
+                                            : "-"
+                                            }}</span>
+                                    </div>
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Límite CC: ${{
+                                            practica.venta.cliente
+                                            ? practica.venta.cliente.limiteCC
+                                            : "-"
+                                            }}</span>
+                                    </div>
+                                    <div class="atributo">
+                                        <span style="margin-left: 10px">Email: {{
+                                            practica.venta.cliente
+                                            ? practica.venta.cliente.email
+                                            : "-"
+                                            }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </p-panel>
+                </div>
+
+                <div class="p-col-12">
+                    <p-panel header="Paciente">
+                        <div class="p-grid">
+                            <div class="p-col-4">
+                                <div class="p-grid">
+                                    <div class="p-col-6">
+                                        <div class="p-field">
+                                            <p-autoComplete [(ngModel)]="practica.paciente" [suggestions]="pacientesfil"
+                                                (completeMethod)="filtradoPacientes($event)"
+                                                (onSelect)="seleccionPaciente($event)" field="nombre" [dropdown]="true"
+                                                name="paciente" [forceSelection]="true" placeholder="Paciente">
+                                            </p-autoComplete>
+                                            <p>
+                                                Nombre: {{
+                                                practica.paciente ? practica.paciente.nombre : "-"
+                                                }}
+                                            </p>
+                                            <p>
+                                                Fecha Nac: {{
+                                                practica.paciente
+                                                ? (practica.paciente.fechaNacimiento
+                                                | date: "dd/MM/yyyy")
+                                                : "-"
+                                                }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="p-col-6">
+                                        <div class="p-field">
+                                            <p>
+                                                Raza: {{
+                                                practica.paciente
+                                                ? practica.paciente.raza.nombre
+                                                : "-"
+                                                }}
+                                            </p>
+                                            <p>
+                                                Edad: {{
+                                                practica.paciente ? practica.paciente.edad : "-"
+                                                }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-col-8">
+                                <div class="p-grid">
+                                    <div class="p-col-4">
+                                        <div class="p-field" *ngIf="vacunasPaciente != null">
+                                            <H5>Ultimas vacunas</H5>
+                                            <div *ngFor="let vacuna of vacunasPaciente.slice(0, 3)">
+                                                <div *ngIf="vacuna.venta != null">
+                                                    <span *ngFor="
+                              let det of vacuna.venta.detalleVenta.slice(0, 1)
+                            ">{{
+                                                        vacuna.fechaHora | date: "dd/MM/yyyy"
+                                                        }}
+                                                        {{ det.item.nombre }}</span>
+                                                </div>
+                                                <div *ngElse>
+                                                    {{ vacuna.fechaHora | date: "dd/MM/yyyy" }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-col-4">
+                                        <div class="p-field" *ngIf="desparacitacionesPaciente != null">
+                                            <H5>Ultimas desparasitaciones</H5>
+                                            <div *ngFor="let d of desparacitacionesPaciente.slice(0, 3)">
+                                                <div *ngIf="d.venta != null">
+                                                    <span *ngFor="let det of d.venta.detalleVenta.slice(0, 1)">{{
+                                                        d.fechaHora | date: "dd/MM/yyyy" }}
+                                                        {{ det.item.nombre }}</span>
+                                                </div>
+                                                <div *ngElse>
+                                                    {{ d.fechaHora | date: "dd/MM/yyyy" }}
+                                                </div>
+                                            </div>
+                                            <!--<p *ngFor="let d of desparacitacionesPaciente.slice(0, 3)">{{(d.fechaHora | date: 'dd/MM/yyyy HH:mm:ss')}} {{d.item.nombre}}</p>-->
+                                        </div>
+                                    </div>
+                                    <div class="p-col-4">
+                                        <div class="p-field" *ngIf="practicasPaciente != null">
+                                            <H5>Ultimas practicas</H5>
+                                            <p *ngFor="let p of practicasPaciente.slice(0, 3)">
+                                                {{ p.fechaHora | date: "dd/MM/yyyy" }}
+                                                {{ p.item.nombre }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p-panel>
+                </div>
+
+                <div class="p-col-8 p-mt-2">
+                    <div class="p-field">
+                        <label for="lastname1"></label>
+                        <textarea style="width: 100%" class="" pInputTextarea placeholder="comentarios"
+                            [(ngModel)]="practica.texto" name="texto"></textarea>
+                    </div>
+                </div>
+                <div class="p-col-2">
+                    <div class="p-field" style="width: 100%">
+                        <label for="lastname1">Turno</label>
+                        <p-autoComplete style="width: 100%" [(ngModel)]="practica.turno" [suggestions]="turnosFil"
+                            (completeMethod)="filtradoTurno($event)" (onSelect)="seleccionTurno($event)" field="start"
+                            [dropdown]="true" name="turno" [forceSelection]="true" placeholder="Turno"></p-autoComplete>
+                    </div>
+                </div>
+                <div class="p-col-2">
+                    <div class="p-field" style="width: 100%">
+                        <label for="lastname1">Proxima cita</label>
+                        <input [(ngModel)]="practica.proximaPractica" style="width: 100%" id="fecfin" type="date"
+                            name="proximaPractica" pInputText />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Tabla-->
+    <p-table [value]="practica.venta.detalleVenta" [columns]="cols" [scrollable]="true" scrollHeight="200px"
+        styleClass="p-datatable-sm" editMode="row">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3em">
+                    <p-tableHeaderCheckbox>Q</p-tableHeaderCheckbox>
+                </th>
+                <!--<th pSortableColumn="codigo">Código <p-sortIcon field="codigo"></p-sortIcon>-->
+                <th>Código</th>
+                <!--<th pSortableColumn="descripcion">Descripción <p-sortIcon field="descripcion"></p-sortIcon>-->
+                <th>Descripción</th>
+                <th style="width: 6em">Precio</th>
+                <th>Cantidad</th>
+                <th>Descuento</th>
+                <th pSortableColumn="total">Total</th>
+                <th style="width: 6em">Stock</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="rowData">
+                <td style="width: 3em">
+                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                </td>
+                <td>
+                    {{ rowData.item.codigo }}
+                </td>
+                <td>
+                    {{ rowData.item.nombre }}
+                </td>
+                <td style="width: 6em">
+                    {{ rowData.item.precioVenta }}
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInitEditableRow (change)="onRowEditInit(rowData)" pInputText type="number" min="0"
+                                [(ngModel)]="rowData.cantidad" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ rowData.cantidad }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInitEditableRow (change)="onRowEditInit(rowData)" pInputText type="number" max="100"
+                                min="0" [(ngModel)]="rowData.descuento" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{ rowData.descuento }}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    {{ rowData.importe }}
+                    <!--{{(1-(rowData.descuento/100))*rowData.cantidad*rowData.item.precioVenta}}-->
+                </td>
+                <td style="width: 6em">
+                    {{ rowData.item.stock - rowData.cantidad }}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p>Total: {{ practica.venta.total }}</p>
+    <!--ButonOptions-->
+    <div>
+        <div class="p-grid">
+            <div class="p-col">
+                <button pButton type="button" class="p-button-raised p-button-success" label="Registrar"
+                    (click)="registrar()"></button>
+            </div>
+            <div class="p-col">
+                <button pButton type="button" class="p-button-raised p-button-info" label="Ver historia clinica"
+                    (click)="displayvh = true"></button>
+            </div>
+            <div class="p-col">
+                <button pButton type="button" class="p-button-raised p-button-warning" label="Cancelar"
+                    (click)="limpiar()"></button>
+            </div>
+        </div>
+    </div>
+</p-panel>
+
+<p-dialog header="Registro de practica" [(visible)]="display" [modal]="true" [responsive]="true" showEffect="fade"
+    [breakpoints]="{ '960px': '75vw', '640px': '100vw' }" [style]="{ width: '50vw' }">
+    <form>
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="firstname1">Se registró la practica</label>
+            </div>
+            <div class="p-field">
+                <label for="lastname1">¿Desea transferir a la pantalla de ventas para efectuar el
+                    cobro?</label>
+                <p>En caso contrario se registrar la operación como pendiente</p>
+            </div>
+        </div>
+        <p-footer>
+            <button pButton type="submit" class="p-button-raised p-button-rounded p-button-success" icon="fa fa-check"
+                label="Transferir a pantalla de ventas" (click)="goVentas()"></button>
+            <button pButton type="reset" class="p-button-raised p-button-rounded p-button-warning" icon="fa fa-close"
+                label="Registrar como pendiente" (click)="display = false"></button>
+        </p-footer>
+    </form>
+</p-dialog>
+
+<p-dialog *ngIf="displayvh" header="Historia clinica" [(visible)]="displayvh" [modal]="true" [responsive]="true" showEffect="fade"
+[style]="{ width: '80vw' }">
+    <form>
+        <div class="p-fluid">
+            <div *ngIf="practica.paciente != null">
+                <historiaClinica [paciente]="practica.paciente.id"></historiaClinica>
+            </div>
+        </div>
+        <p-footer>
+            <button pButton type="reset" class="p-button-raised p-button-rounded" icon="fa fa-close" label="Cerrar"
+                (click)="displayvh = false"></button>
+        </p-footer>
+    </form>
+</p-dialog>

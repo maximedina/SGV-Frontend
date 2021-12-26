@@ -1,0 +1,77 @@
+<p-panel header="Agregar permisos" [toggleable]="true" [style]="{'margin-bottom':'5px'}" style="color: white;">
+  <form #frm="ngForm" class="form">
+    <div class="p-d-flex p-ai-end">
+        <div class="p-col-2">
+          <label style="color: black">Nombre</label>
+          <br>
+          <input pInputText name="name"  placeholder="Nombre" ngModel>
+        </div>
+        <div class="p-col-2">
+          <label style="color: black">Descripción</label>
+          <br>
+          <input pInputText name="description"  placeholder="Descripción" ngModel>
+        </div>
+        <div class="p-col">
+          <button  pButton class="button-clear" type="submit" label="Limpiar" (click)="frm.reset()" style="margin-right: 0.4em"></button>
+          <button  pButton class="button-search" type="submit" label="Buscar" (click)="search(frm); buttonSearch(disabled)"></button>
+        </div>
+      </div>
+  </form>
+</p-panel>
+
+<!-- Filter Columns -->
+<div class="p-d-flex">
+  <p-table #dt [columns]="cols" [paginator]="true" [rows]="10" [value]="profiles" dataKey="profileId" editMode="row"
+    class="p-grid" scrollHeight="{{scrollHeight}}" [scrollable]="true" class="fixPaginator">
+    <ng-template pTemplate="colgroup" let-columns>
+      <colgroup>
+          <col *ngFor="let col of columns">
+          <col style="width: 11%">
+      </colgroup>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns >
+      <tr>
+        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+        <th style="width:10em; text-align: center">Acción</th>
+      </tr>
+      <tr>
+        <th *ngFor="let col of columns" [ngSwitch]="col.field">
+          <input *ngSwitchCase="'name'" placeholder="Nombre" pInputText type="text"
+            (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+          <input *ngSwitchCase="'description'" placeholder="Descripción" pInputText type="text"
+            (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <!-- Data Column-->
+    <ng-template pTemplate="body" let-rowData let-editing="editing" let-index="rowIndex" >
+      <tr [pEditableRow]="rowData">
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="output">
+                {{rowData.name}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="output">
+              {{rowData.description}}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <div class="actions">
+            <app-profile-modal [profile]="rowData"></app-profile-modal>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<router-outlet></router-outlet>

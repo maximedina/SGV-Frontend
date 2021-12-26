@@ -1,0 +1,28 @@
+<div style="text-align:left">
+  <button class="add" type="button" pButton icon="fa fa-plus" (click)="display=false; showModal()"></button>
+</div>
+
+<!--Form Add -->
+<form #frmModal="ngForm" (ngSubmit)="addNewProvincia(frmModal.value); frmModal.resetForm()">
+<p-dialog header="Crea registro de Provincia" [(visible)]="display"
+  [modal]="true" [responsive]="true" showEffect="fade">
+  <!-- Header-->
+  <div class="ui-m ui-fluid">
+      <div class="ui-m-12 ui-fluid">
+        <div class="ui-m-12 required">
+          <label for="nombre">Nombre</label>
+        </div>
+        <div class="ui-m-12">
+          <input pInputText class="col-md-12" type="text" id="nombre" ngModel name="nombre" placeholder="Nombre" required />
+        </div>
+      </div>
+    </div>
+  <!-- Footer -->
+  <p-footer>
+    <button pButton type="reset" class="button-cancel" (click)="frmModal.resetForm(); display=false"  icon="fa fa-close" label="Cancelar"></button>
+    <button pButton type="submit" class="button-save" [disabled]="!frmModal.valid" icon="fa fa-check" label="Grabar"></button>
+  </p-footer>
+ </p-dialog>
+</form>
+
+

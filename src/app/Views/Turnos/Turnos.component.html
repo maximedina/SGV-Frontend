@@ -1,0 +1,118 @@
+<p-toast key="alert" [style]="{marginTop: '-12px'}"></p-toast>
+<div class='demo-app'>
+
+<!--   <div class='demo-app-sidebar'>
+    <div class='demo-app-sidebar-section'>
+      <h2>Instructions</h2>
+      <ul>
+        <li>Select dates and you will be prompted to create a new event</li>
+        <li>Drag, drop, and resize events</li>
+        <li>Click an event to delete it</li>
+      </ul>
+    </div>
+    <div class='demo-app-sidebar-section'>
+      <label>
+        <input
+          type='checkbox'
+          [checked]='calendarVisible'
+          (change)='handleCalendarToggle()'
+        />
+        toggle whole calendar
+      </label>
+    </div>
+    <div class='demo-app-sidebar-section'>
+      <label>
+        <input
+          type='checkbox'
+          [checked]='calendarOptions.weekends'
+          (change)='handleWeekendsToggle()'
+        />
+        toggle weekends
+      </label>
+    </div>
+    <div class='demo-app-sidebar-section'>
+      <h2>All Events ({{currentEvents.length}})</h2>
+      <ul>
+        <li *ngFor='let event of currentEvents'>
+          <b>{{event.startStr}}</b>
+          <i>{{event.title}}</i>
+        </li>
+      </ul>
+    </div>
+  </div> -->
+
+  <div class='demo-app-main'>
+
+    <full-calendar #ucCalendar
+      *ngIf='calendarVisible'
+      [options]='calendarOptions'
+    ></full-calendar>
+  </div>
+</div>
+
+
+<p-dialog header="Registrar turno" [(visible)]="display"
+    [modal]="true" [responsive]="true" showEffect="fade" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <form >
+      <div class="p-fluid">
+        <div class="p-field">
+            <label for="firstname1">Inicio</label>
+            <div class="p-fluid p-formgrid p-grid">
+              <div class="p-field p-col-6">
+                <input id="fecini" type="date" [(ngModel)]="fecini" name="fecini" pInputText> 
+              </div>
+              <div class="p-field p-col-6">
+                <input id="fecinihra" type="time" [(ngModel)]="fecinihra" name="fecinihra" pInputText> 
+              </div>
+            </div>
+        </div>
+        <div class="p-field">
+            <label for="lastname1">Fin</label>
+            <div class="p-fluid p-formgrid p-grid">
+              <div class="p-field p-col-6">
+                <input id="fecfin" type="date" [(ngModel)]="fecfin" name="fecfin" pInputText> 
+              </div>
+              <div class="p-field p-col-6">
+                <input id="fecfinhra" type="time" [(ngModel)]="fecfinhra" name="fecfinhra" pInputText> 
+              </div>
+            </div>
+        </div>
+        <div class="p-field">
+          <label for="lastname1">Propietario</label>
+          <p-autoComplete [(ngModel)]="clienteSel" [suggestions]="clientesFiltrados" [forceSelection]="true"
+              (onSelect)="seleccionCliente($event)" (completeMethod)="filtradoClientes($event)"
+              field="identificador" [size]="30" placeholder="DNI / Nombre" [minLength]="1"
+              name="cliente" [dropdown]="true" class="iitem"></p-autoComplete>
+        </div>
+        <div class="p-field">
+          <label for="lastname1">Paciente</label>
+          <p-autoComplete [(ngModel)]="turno.paciente" [suggestions]="pacientesfil" (completeMethod)="filtradoPacientes($event)"
+            field="nombre" [dropdown]="true" name="paciente" [forceSelection]="true" placeholder="Paciente"></p-autoComplete>
+        </div>
+        <div class="p-field">
+          <label for="lastname1">Practica</label>
+          <p-autoComplete [(ngModel)]="turno.practica" [suggestions]="itemsfil" (completeMethod)="filtradoPracticas($event)"
+            field="nombre" [dropdown]="true" name="practica" [forceSelection]="true" placeholder="Practica"></p-autoComplete>
+        </div>
+        <div class="p-field">
+          <label for="lastname1">Personal</label>
+          <p-autoComplete [(ngModel)]="turno.profesional" [suggestions]="personalsfil" (completeMethod)="filtradoPersonal($event)"
+            field="usuario.name" [dropdown]="true" name="profesional" [forceSelection]="true" placeholder="Personal"></p-autoComplete>
+        </div>
+        <div class="p-field">
+          <label for="lastname1">Observaciones</label>
+          <textarea pInputTextarea [(ngModel)]="turno.observaciones" name="observaciones"></textarea>
+        </div>
+        <div class="p-field">
+          <label for="lastname1">Turno tomado?</label>
+          <p-toggleButton onLabel="Tomado" offLabel="Pendiente" onIcon="pi-check" offIcon="pi pi-times" iconPos="right" [(ngModel)]="turno.tomado" name="tomado" ></p-toggleButton>
+        </div>
+      </div>
+      
+      <p-footer>
+        <button pButton type="reset" class="p-button-raised p-button-rounded p-button-warning" (click)="display=false"  icon="fa fa-close" label="Cancelar"></button>
+        <button pButton type="submit" class="p-button-raised p-button-rounded p-button-success" (click)="crearTurno()"  icon="fa fa-check" label="Guardar"></button>
+        <button *ngIf="turno.id>0" pButton type="submit" class="p-button-raised p-button-rounded p-button-danger" (click)="eliminarTurno()"  icon="fa fa-check" label="Eliminar"></button>
+      </p-footer>
+    </form>
+</p-dialog>

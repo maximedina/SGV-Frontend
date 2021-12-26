@@ -1,0 +1,65 @@
+<!-- <div class="p-d-flex" #headerBody *ngIf="isLoggedIn()"> -->
+  <div class="p-grid" #headerBody *ngIf="isLoggedIn()">
+    <div class="p-col-fixed" #hamburger style="width:60px">
+      <svg id="svgHamburguer" class="ham hamRotate ham1" viewBox="0 0 100 100" width="50" (click)="display = true"
+        onclick="this.classList.toggle('active')">
+        <path class="line top"
+          d="m 30,33 h 40 c 0,0 9.044436,-0.654587 9.044436,-8.508902 0,-7.854315 -8.024349,-11.958003 -14.89975,-10.85914 -6.875401,1.098863 -13.637059,4.171617 -13.637059,16.368042 v 40" />
+        <path class="line middle" d="m 30,50 h 40" />
+        <path class="line bottom"
+          d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
+      </svg>
+
+    </div>
+    <div class="p-col-fixed" style="width:50px">
+      <a href="#">
+        <img src="./assets/logo.png" width="50" height="50" alt="">
+      </a>
+    </div>
+    <div class="p-col-fixed titulo" style="width:70px">
+      SGV
+    </div>
+    <div class="p-col" style="top:-20%; display:flex; justify-content: flex-end;">
+        <button pButton class="btn btn-link" label={{user.name}} icon='pi pi-angle-down' iconPos='right'
+          (click)="menuOut.toggle($event);"></button>
+        <p-tieredMenu #menuOut appendTo="body" [model]="items2" [popup]="true"></p-tieredMenu>
+    </div>
+  </div>
+<!-- </div> -->
+
+<p-sidebar [(visible)]="display" [style]="{width:'280px', 'height': '93.5%', 'margin-top':'60px', 'overflow':'auto'}"
+  [showCloseIcon]="false" (onShow)="getHamburger()" (onHide)="toggleHamburger()">
+  <div class="menuTitle">
+    <label>Menu de Opciones</label>
+  </div>
+  <p-panelMenu [model]="items" class="panelMenu"></p-panelMenu>
+  <br>
+</p-sidebar>
+
+
+<form #frmModalPass="ngForm" novalidate (ngSubmit)="cambiarPass(frmModalPass)">
+<p-dialog header="Cambiar contraseña" [(visible)]="displayPassChangeModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+    <div class="form-group">
+      <label>Contraseña actual</label>
+      <input class="form-control input-lg" placeholder="Ingresa tu contraseña actual" type="password"  id = "oldPw" name = "oldPw" ngModel required>
+      </div>
+      <div class="form-group">
+      <label>Nueva contraseña</label>
+      <input class="form-control input-lg" placeholder="Ingresa la nueva contraseña" type="password" id = "newPw" name = "newPw" ngModel required>
+      </div>
+      
+      <div class="form-group">
+      <label>Repetir nueva contraseña</label>
+      <input class="form-control input-lg" placeholder="Repite la nueva contraseña" type="password"  id = "confirmPw" name = "confirmPw" ngModel required>
+      </div>
+
+      <p-footer>
+        <button pButton type="reset" class="button-cancel" (click)="frmModalPass.resetForm(); displayPassChangeModal=false"  icon="fa fa-close" label="Cancelar"></button>
+        <button pButton type="submit" class="button-save" [disabled]="!frmModalPass.valid" icon="fa fa-check" label="Cambiar contraseña"></button>
+      </p-footer>
+</p-dialog>
+</form>
+
+<router-outlet #router (activate)="display=false"></router-outlet>
+<!-- merge -->

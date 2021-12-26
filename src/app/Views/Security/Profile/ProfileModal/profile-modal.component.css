@@ -1,0 +1,26 @@
+:host ::ng-deep .ui-dialog {
+  width: 90%;
+}
+
+headerPanel {
+  text-align: center;
+}
+
+:host ::ng-deep .ui-picklist-buttons  {
+  display:none
+}
+
+:host ::ng-deep .ui-picklist.ui-picklist-responsive .ui-picklist-listwrapper {
+  padding: 15px;
+  width: 300px;
+}
+
+:host ::ng-deep .optionsModule:hover {
+  background-color:  #E6E6E6 !important;
+  cursor: pointer;
+}
+
+:host ::ng-deep .tableModule .ui-table-scrollable-view .ui-table-scrollable-body {
+  min-height: 375px;
+  max-height: 375px;
+}

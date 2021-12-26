@@ -1,0 +1,33 @@
+<div style="text-align:left">
+  <button class="add" type="button" pButton icon="fa fa-plus" (click)="showDialog()"></button>
+</div>
+
+<form #frmModal="ngForm" (ngSubmit)="addNewUser()">
+  <p-dialog header="Inserción de usuario" class="modal-lg" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{}" showEffect="fade">
+    <div class="p-d-flex p-flex-column">
+      <div class="p-d-flex p-flex-column required">
+        <label for="login">DNI</label>
+        <input pInputText id="login" placeholder="Login" [(ngModel)]="user.login" name="login" required />
+      </div>
+      <div class="p-d-flex p-flex-column">
+        <div class="p-d-flex p-flex-column required">
+            <label for="name">Nombre</label>
+        </div>
+        <div class="p-d-flex p-flex-column">
+            <input pInputText id="name" placeholder="Nombre" [(ngModel)]="user.name" name="name" required />
+        </div>
+      </div>
+      <div class="p-d-flex p-flex-column">
+        <div class="p-d-flex p-flex-column required">
+            <label for="profile">Profile</label>
+        </div>
+        <p-dropdown id="profile" [options]="profiles" name="profile" [(ngModel)]="user.profile" placeholder="Selecione"
+        optionLabel="name" appendTo="body" required></p-dropdown>
+      </div>
+    </div>
+    <p-footer>
+      <button pButton (click)="frmModal.resetForm(); display=false" style="background-color: #717171 !important; border: 1px solid #717171" icon="fa fa-close" label="Cancelar"></button>
+      <button pButton type="submit" [disabled]="!frmModal.valid" style="background-color: #007AD9; border: 1px solid #007AD9" icon="fa fa-check" label="Grabar"></button>
+    </p-footer>
+  </p-dialog>
+</form>

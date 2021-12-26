@@ -1,0 +1,102 @@
+body {
+  background: #5f5f5f;
+  height: 100vh;
+}
+
+#cardLoginPage{
+  border: 0px solid rgba(0,0,0,.125) !important;
+}
+
+.headerImg {
+  width: 100%;
+  height:78px;
+  background-color: #d3d3d3;
+  box-shadow: 1px 2px 3px rgba(48, 48, 48, 0.46);
+}
+
+
+.imgI2Portal{
+  width: 200px;
+  z-index:1;
+  top:0; left:0;
+  margin-top: 15px;
+  filter: grayscale(0);
+  opacity: 1.0;
+}
+
+
+
+#cardLoginPage{
+  margin-top: 0px !important;
+}
+
+#cardLoginPage .card-body {
+  justify-content: center;
+  background:  #B1B1B1;
+  box-shadow: 1px 2px 3px rgba(48, 48, 48, 0.46);
+  border-radius: 10px !important;
+  margin-top: 25% !important;
+  /* border:0px !important; */
+
+}
+
+#cardLoginPage label {
+  display: inline-block;
+  height: 1px;
+  text-align: left;
+  font-family: Verdana;
+  color:white;
+  font-weight: bold;
+  padding-bottom: 0rem;
+  font-size: 0.78rem;
+}
+
+#cardLoginPage input {
+  height: 31px;
+  margin-bottom: 0.3rem;
+}
+
+#btSubmit {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#btSubmit .ui-button {
+  height: 40px;
+  width: 120px;
+  font-size: 0.9rem;
+  font-family: Verdana;
+  background-color: rgb(95, 95, 95);
+  color:white;
+  font-weight: bold;
+  border: 1px solid  rgb(95, 95, 95);
+}
+
+#btSubmit .ui-button:not([disabled]):hover {
+  /* background-color: rgb(87, 93, 121); */
+  background-color:rgb(95, 95, 95);
+  border: 1px solid white !important;
+}
+
+.lang-flag{
+  width: 30px;
+  height:30px;
+  border-radius:200px;
+  background-size:100% 100%;
+  color:transparent;
+  background-color:transparent;
+  border:0px;
+  margin-right:5px;
+}
+
+.pt:hover, .en:hover, .es:hover{
+  opacity: 1.0;
+}
+
+.card{
+  background-color: transparent;
+}
+

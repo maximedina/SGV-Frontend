@@ -1,0 +1,130 @@
+<p-button *ngIf="tipo=='I'" (click)="display=false; showModal()" >Ingreso caja</p-button>  
+<p-button *ngIf="tipo=='E'" (click)="display=false; showModal()" >Egreso caja</p-button>  
+  <!--Form Add -->
+  <p-dialog header="Registrar" [(visible)]="display"
+    [modal]="true" [responsive]="true" showEffect="fade" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+    <form >
+    <!-- Header-->
+    <div class="ui-m ui-fluid">
+        <div class="ui-m-12 ui-fluid">
+          <div class="ui-m-12 required">
+            <label for="Importe">Monto</label>
+          </div>
+          <div class="ui-m-12">
+            <input pInputText class="col-md-12" type="text" id="Importe" [(ngModel)]="movimiento.Importe" name="Importe" placeholder="Nombre" required />
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-m ui-fluid">
+        <div class="ui-m-12 ui-fluid">
+          <div class="ui-m-12 required">
+            <label for="Motivo">Motivo</label>
+          </div>
+          <div class="ui-m-12">
+            <p-autoComplete [(ngModel)]="movimiento.idMotivo" [suggestions]="tiposFiltrados" (completeMethod)="filtradoTipo($event)"
+            [dropdown]="true" field="motivo" [forceSelection]="true" (onSelect)="seleccionTipo($event)"></p-autoComplete>
+                  <!--<select class="iitem" name="miselect" [(ngModel)]="movimiento.idMotivo">
+                    <option [value]="[tipo.idMotivo]" *ngFor="let tipo of tipos">{{tipo.motivo}}</option>
+                    </select>-->
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-m ui-fluid">
+        <div class="ui-m-12 ui-fluid">
+          <div class="ui-m-12 required">
+            <label for="Comentario">Comentario</label>
+          </div>
+          <div class="ui-m-12">
+            <input pInputText class="col-md-12" type="text" id="Comentario" [(ngModel)]="movimiento.Comentario" name="Comentario" placeholder="Comentario" required />
+          </div>
+        </div>
+      </div>
+
+      <br/>
+        <div *ngIf="flagcc" class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-12">
+                <p-autoComplete [(ngModel)]="movimiento.idCliente" [suggestions]="clientesFiltrados" (completeMethod)="filtradoNombre($event)"
+                field="name" [forceSelection]="true" (onSelect)="seleccionCliente($event)" placeholder="nombre cliente"></p-autoComplete>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <p-autoComplete [(ngModel)]="movimiento.idCliente" [suggestions]="clientesFiltrados" (completeMethod)="filtradoCodigo($event)"
+                field="name" [forceSelection]="true" (onSelect)="seleccionCliente($event)" placeholder="codigo cliente"></p-autoComplete>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <p-autoComplete [(ngModel)]="movimiento.idCliente" [suggestions]="clientesFiltrados" (completeMethod)="filtradoDni($event)"
+                field="userId" [forceSelection]="true" (onSelect)="seleccionCliente($event)" placeholder="dni"></p-autoComplete>
+            </div>
+            <br/>
+            <div class="p-field p-col-12 p-md-6">
+                <label>Nro Cliente:{{cliente.userId}}</label>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label>Cuenta corriente:{{cliente.cuentaCorriente}}</label>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label>DNI:22121</label>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label>LimiteCC:5000</label>
+            </div>
+            <div class="p-field p-col-12 p-md-12">
+                <label>Nombre: {{cliente.name}}</label>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label>Telefono:{{cliente.telefono}}</label>
+            </div>
+            <div class="p-field p-col-12 p-md-6">
+                <label>Email:{{cliente.email}}</label>
+            </div>
+            <div class="p-field p-col-12 p-md-12">
+                <label>Domicilio:{{cliente.Domicilio}}</label>
+            </div>
+        </div>
+
+
+
+
+        <div *ngIf="flagpp" class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col-12">
+              <p-autoComplete [(ngModel)]="movimiento.idProveedor" [suggestions]="proveedoresFiltrados" (completeMethod)="filtradoProveedor($event)"
+              field="nombre" [forceSelection]="true" (onSelect)="seleccionProveedor($event)" placeholder="Proveedor"></p-autoComplete>
+          </div>
+          <br/>
+          <div class="p-field p-col-12 p-md-6">
+              <label>Nro Proveedor:{{proveedor.id}}</label>
+          </div>
+          <div class="p-field p-col-12 p-md-6">
+              <label>Fecha ultimo Pedido:2021-10-29</label>
+          </div>
+          <div class="p-field p-col-12 p-md-6">
+              <label>Nombre: {{proveedor.nombre}}</label>
+          </div>
+          <div class="p-field p-col-12 p-md-6">
+              <label>Cuenta corriente: {{proveedor.cuentaCorriente}}</label>
+          </div>
+          <div class="p-field p-col-12 p-md-6">
+              <label>Nombre apellido contact: {{proveedor.contacto}}</label>
+          </div>
+          <div class="p-field p-col-12 p-md-6">
+              <label>Saldo final: 0</label>
+          </div>
+          <div class="p-field p-col-12 p-md-12">
+              <label>Domicilio : <span *ngIf="proveedor.ciudad != null ">{{proveedor.domicilio}}  {{proveedor.ciudad.nombre}}</span></label>
+          </div>
+          <div class="p-field p-col-12 p-md-12">
+              <label>Telefono: {{proveedor.telefono}}</label>
+          </div>
+          <div class="p-field p-col-12 p-md-12">
+            <label>Email: {{proveedor.email}}</label>
+        </div>
+      </div>  
+    <!-- Footer -->
+    <p-footer class="mt-1">
+        {{error}}
+      <button pButton type="reset" class="button-cancel mr-2" (click)="display=false"  icon="fa fa-close" label="Cancelar"></button>
+      <button pButton type="submit" class="button-save"  (click)="registrar()" icon="fa fa-check" label="registrar"></button>
+    </p-footer>
+</form>
+   </p-dialog>

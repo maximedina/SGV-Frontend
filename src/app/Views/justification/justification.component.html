@@ -1,0 +1,22 @@
+<p-toast key="alert" [style]="{marginTop: '-12px'}"></p-toast>
+
+<p-dialog
+        header="Motivo"
+        [(visible)]="displayJustification"
+        [modal]="true"
+        [responsive]="true"
+        [style]="{width: '500px', minWidth: '200px'}"
+        [minY]="70"
+        [closeIcon]="false"
+        [closeOnEscape]="false"
+        [maximizable]="false"
+        [baseZIndex]="10000">
+        <form #frmModal="ngForm" (ngSubmit)="save(frmModal.value); frmModal.resetForm()">
+          <p>Complete el motivo por el que se desea eliminar el registro.</p>
+          <textarea ngModel name="description" rows="5" cols="60" required></textarea>
+          <p-footer>
+              <button pButton type="submit" [disabled]="!frmModal.valid" style="background-color: #007AD9; border: 1px solid #007AD9; margin-right: .1em" icon="fa fa-check" label="Grabar"></button>
+              <button pButton type="reset" (click)="close(false)" style="background-color: #717171 !important; border: 1px solid #717171" icon="fa fa-close" label="Cancelar"></button>
+          </p-footer>
+      </form>
+</p-dialog>

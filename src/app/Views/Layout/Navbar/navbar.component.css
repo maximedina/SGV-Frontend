@@ -1,0 +1,126 @@
+.tamHeaderMenu{
+  height: 50px !important;
+}
+
+.fa-user::before{
+  margin: 4px;
+}
+.fa-user > label{
+  font-family: "Roboto", "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+}
+
+.titulo{
+  font-family: "Roboto", "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  font-size:xx-large;
+  align-items: center;
+  color:dimgray;
+} 
+
+.topoNavbar {
+    padding: 10px 0px 0px 10px;
+    background-color: #fff;
+    height: 60px;
+}
+
+.buttonNav {
+    /* border: none;
+    background-color: #BDBDBD; */
+    margin-top: 10px;
+    background-color: transparent;
+    color: #424040;
+    border: none !important;
+    margin-top: -20px;
+    margin-left: -40px;
+}
+
+.buttonNav:hover {
+    background-color:transparent !important;
+    color: black !important;
+}
+
+:host /deep/ body > div > div > div.col-md.text-left > button > span.ui-button-icon-left.ui-clickable.pi.pi-bars{
+  border: none !important;
+}
+
+  :host ::ng-deep body  > div > div > div.col-md.text-left > button :active{
+    outline: none !important;
+}
+
+.buttonNav:active {
+  outline: none !important;
+  vertical-align: "middle";
+}
+
+.menuTitle {
+    font-family: "Roboto", "Trebuchet MS", Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    text-align: center;
+    font-size: 18px;
+}
+
+:host /deep/ .ui-button .ui-widget .ui-state-default .ui-corner-all .ui-button-icon-only {
+    background: black;
+    color: black;
+    vertical-align: "middle";
+}
+
+:host /deep/ nav.navbar.navbar-light.bg-light.tamHeaderMenu > button > span.ui-button-icon-left.ui-clickable.fa.fa-fw.fa-list{
+  color: #fff;
+}
+
+:host /deep/ .ui-panelmenu-panel .ng-tns-c4-1 .ng-star-inserted {
+    border: none;
+}
+
+:host /deep/ .ui-sidebar {
+  overflow: scroll;
+}
+
+:host /deep/ .sidebar .ng-tns-c3-0{
+    background-color: #fff;
+}
+:host /deep/ .ng-tns-c4-1 .ui-panelmenu .ui-widget{
+    border: none;
+    background-color: #fff;
+}
+
+:host /deep/ .ui-panelmenu-panel .ng-tns-c4-1 .ng-star-inserted{
+    border: none;
+}
+
+:host /deep/ .ui-panelmenu-content-wrapper .ng-trigger .ng-trigger-rootItem .ng-tns-c4-1 .ng-star-inserted{
+    border-bottom: none;
+}
+
+:host /deep/ .ui-panelmenu-header-link .ng-tns-c3-1 .ng-star-inserted {
+    background-color: #fff;
+}
+
+:host /deep/ .panelMenu {
+    border:none !important;
+}
+
+:host /deep/ .ui-panelmenu-header.ui-state-active .a {
+    background-color: #FFFFFF;
+}
+
+:host /deep/ .ui-button:enabled:focus {
+  outline: none !important;
+  outline-offset: none !important;
+  box-shadow: none !important;
+  vertical-align: middle;
+}
+
+:host /deep/ .ui-widget-header .ui-button:enabled:active, .ui-widget-content .ui-button:enabled:active, .ui-widget.ui-button:enabled:active, .ui-button:enabled:active {
+  background: transparent;
+}
+
+.ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button {
+  border: none;
+  color: #000;
+  background: transparent;
+  transition: background-color 0.2s;
+}

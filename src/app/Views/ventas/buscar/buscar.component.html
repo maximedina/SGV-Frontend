@@ -1,0 +1,60 @@
+<p-button (click)="display=false; showModal()" label="Buscar"></p-button>
+  <!--Form Add -->
+  <p-dialog header="Buscar venta" [(visible)]="display"
+    [modal]="true" [responsive]="true" showEffect="fade" [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '70vw'}">
+    <form >
+    <!-- Header-->
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+            <label for="firstname1">Fecha inicio</label>
+            <input type="date" pInputText [(ngModel)]="fecinis" name="fecinis" value="{{fecinis}}"/>
+        </div>
+        <div class="p-field p-col">
+            <label for="lastname1">Fecha fin</label>
+            <input type="date" pInputText [(ngModel)]="fecfins" name="fecfins"/>
+        </div>
+        <div class="p-field p-col">
+            <label for="lastname1">&nbsp;</label>
+            <button pButton type="button" class="p-button-raised p-button-rounded p-button-success" label="buscar" (click)="buscar()"></button>
+        </div>
+    </div>
+    <div class="p-formgroup-inline p-formgrid p-grid">
+        
+
+        <div class="p-field p-col-12">
+            <p-table [value]="ventas" dataKey="id" [columns]="cols" [scrollable]="true" scrollHeight="200px"  styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width:4em;"></th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Monto</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                  <tr [pEditableRow]="rowData" >
+                    <td style="width:4em;">
+                      <p-button  pInitEditableRow (click)="itemSelec(rowData)" icon="fa fa-info"></p-button>
+                    </td>
+                    <td>
+                      {{rowData.estatus}}
+                    </td>
+                    <td>
+                      {{rowData.fechaHora | date: 'dd/MM/yyyy HH:mm:ss'}}
+                    </td>
+                    <td>
+                        {{rowData.cliente.name}}
+                    </td>
+                    <td>
+                        {{rowData.total}}
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
+        </div>
+    </div> 
+</form>
+   </p-dialog>
+
